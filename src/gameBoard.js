@@ -1,3 +1,4 @@
+import { randomCoords } from "../helpers/helpers";
 import { Ship } from "../src/ship";
 
 const GameBoard = () => {
@@ -19,11 +20,20 @@ const GameBoard = () => {
   // Direction randomizer
   const randomDirection = () => {
     if (Math.random() > 0.5) {
-      changeDirection;
+      changeDirection();
     }
   };
   // Placement validation
   const validatePlace = (x, y, len) => {
+    if (direction == "horizontal") {
+      if (x + len >= 10) {
+        return false;
+      }
+    } else {
+      if (y + len >= 10) {
+        return false;
+      }
+    }
     for (let i = 0; i < len; i++) {
       if (newGrid[x][y] != undefined) {
         return false;
@@ -41,6 +51,7 @@ const GameBoard = () => {
     const newShip = Ship(len);
     for (let i = 0; i < len; i++) {
       newGrid[x][y] = newShip;
+      //console.log([x, y]);
       if (direction == "horizontal") {
         x++;
       } else {
@@ -48,11 +59,21 @@ const GameBoard = () => {
       }
     }
   };
+  // Randomly place ship on the board
+  const randomlyPlaceShip = (shipLen, pBoard) => {
+    randomDirection();
+    const coords = randomCoords();
+    if (pBoard.validatePlace(...coords, shipLen) == true) {
+      pBoard.placeShip(...coords, shipLen);
+    } else {
+      randomlyPlaceShip(shipLen, pBoard);
+    }
+  };
   // Receives attacks on specific coordinates
   const receiveAttack = (x, y) => {
     if (newGrid[x][y] == undefined) {
       newGrid[x][y] = "miss";
-      return newGrid[x][y];
+      //return newGrid[x][y];
     } else if (
       newGrid[x][y] != undefined &&
       newGrid[x][y] != "hit" &&
@@ -63,9 +84,9 @@ const GameBoard = () => {
         sunkCounter++;
       }
       newGrid[x][y] = "hit";
-      return newGrid[x][y];
+      // return newGrid[x][y];
     } else {
-      return false;
+      // return false;
     }
   };
   const getGrid = () => {
@@ -86,6 +107,7 @@ const GameBoard = () => {
     changeDirection,
     randomDirection,
     validatePlace,
+    randomlyPlaceShip,
   };
 };
 
