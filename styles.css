@@ -29,3 +29,15 @@ button {
   height: 4rem;
   width: 100%;
 }
+
+.miss {
+  background-color: blue;
+}
+
+.ship {
+  background-color: green;
+}
+
+.hit {
+  background-color: red;
+}
