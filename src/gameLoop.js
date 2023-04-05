@@ -4,13 +4,21 @@ import {
   initBoards,
   renderBoards,
   attackValid,
+  disableBoards,
 } from "../helpers/helpers";
 import { GameBoard, createGrid } from "../src/gameBoard";
 import { Ship } from "../src/ship";
 
 const newGame = () => {
-  const left = document.querySelector(".left");
-  const right = document.querySelector(".right");
+  const container = document.querySelector(".container");
+  const left = document.createElement("div");
+  container.appendChild(left);
+  left.classList.add("left");
+  const right = document.createElement("div");
+  container.appendChild(right);
+  right.classList.add("right");
+  const popUpWin = document.querySelector("#popupW");
+  const popUpLose = document.querySelector("#popupL");
   // Initialize game
   const p1 = Player();
   const p1Board = GameBoard();
@@ -38,19 +46,33 @@ const newGame = () => {
       if (attackValid(rowNum, colNum, p2Board)) {
         p1.attack(rowNum, colNum, p2Board);
         renderBoards(p1Board, p2Board);
-        setTimeout(() => {
-          p2.randomAttack(p1Board);
-          renderBoards(p1Board, p2Board);
-        }, 400);
+        if (p2Board.allSunk()) {
+          disableBoards();
+          popUpWin.style.display = "block";
+        } else {
+          setTimeout(() => {
+            p2.randomAttack(p1Board);
+            renderBoards(p1Board, p2Board);
+            if (p1Board.allSunk()) {
+              disableBoards();
+              popUpLose.style.display = "block";
+            }
+          }, 400);
+        }
         console.log(p2Board.getGrid());
       } else {
         return;
       }
     });
   });
-  // Actual game loop
-  //while (condition) {}
-  return {};
 };
 
-export { newGame };
+const restartGame = () => {
+  const left = document.querySelector(".left");
+  const right = document.querySelector(".right");
+  right.remove();
+  left.remove();
+  newGame();
+};
+
+export { newGame, restartGame };

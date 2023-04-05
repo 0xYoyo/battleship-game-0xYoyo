@@ -63,4 +63,21 @@ const attackValid = (x, y, board) => {
   }
 };
 
-module.exports = { randomCoords, initBoards, renderBoards, attackValid };
+const disableBoards = () => {
+  const leftCells = document.querySelectorAll(".leftCell");
+  const rightCells = document.querySelectorAll(".rightCell");
+  rightCells.forEach((cell) => {
+    cell.disabled = true;
+  });
+  leftCells.forEach((cell) => {
+    cell.disabled = true;
+  });
+};
+
+module.exports = {
+  randomCoords,
+  initBoards,
+  renderBoards,
+  attackValid,
+  disableBoards,
+};
