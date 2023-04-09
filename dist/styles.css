@@ -4,12 +4,17 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   box-sizing: border-box;
   margin: 0;
+  background-color: #444;
 }
 
 h1 {
   text-align: center;
   margin: 0;
-  padding-top: 2rem;
+  padding: 2rem;
+  background-color: purple;
+  color: whitesmoke;
+  /* border-bottom: 1rem inset #444; */
+  box-shadow: 0 0 4px black;
 }
 
 .container {
@@ -23,6 +28,14 @@ h1 {
 .right {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
+}
+
+.right {
+  border: 4px outset red;
+}
+
+.left {
+  border: 4px outset lightgreen;
 }
 
 button {
